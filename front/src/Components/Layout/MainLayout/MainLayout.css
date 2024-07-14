@@ -1,0 +1,12 @@
+@media (max-width: 768px) {
+    .MainLayout {
+        grid-template-rows: auto 1fr auto;
+    }
+    .Menu {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    .Box {
+        width: 100%;
+    }
+}
