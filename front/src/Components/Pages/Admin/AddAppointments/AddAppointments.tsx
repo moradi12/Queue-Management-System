@@ -1,27 +1,18 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { useNavigate } from "react-router-dom";
-import { Store } from "../../../../../../Redux/Store";
 import axios, { AxiosError } from "axios";
 import "./AddAppointments.css";
-import { checkData } from "../../../../../../Utils/checkData";
-import { Appointment } from "../../../../../../Models/Appointment";
 import { useForm } from "react-hook-form";
 import { TextField, Typography, Button, Grid, MenuItem } from "@mui/material";
-import { notify } from "../../../../../../Utils/notif";
-import { DoctorType } from "../../../../../../Models/DoctorType";
-import { AppointmentStatus } from "../../../../../../Models/AppointmentStatus"; // Import the AppointmentStatus enum
+import { Appointment } from "../../../../Models/Appointment";
+import { Store } from "../../../../Redux/Store";
+import { notify } from "../../../../Utils/notif";
+import { DoctorType } from "../../../../Models/DoctorType";
+import { AppointmentStatus } from "../../../../Models/AppointmentStatus";
 
 export function AddAppointments(): JSX.Element {
   const navigate = useNavigate();
   const { register, handleSubmit, formState: { errors } } = useForm<Appointment>();
-
-  // useEffect(() => {
-  //   checkData();
-  //   const token = Store.getState().auth.token;
-  //   if (!token || token.length < 10) {
-  //     navigate("/login");
-  //   }
-  // }, [navigate]);
 
   const onSubmit = async (data: Appointment) => {
     const token = Store.getState().auth.token;

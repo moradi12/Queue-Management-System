@@ -119,9 +119,8 @@ public class AdminController {
     }
 
     @GetMapping("/appointments")
-    public ResponseEntity<List<Appointment>> getAllAppointments(@RequestHeader("Authorization") String jwt) {
+    public ResponseEntity<List<Appointment>> getAllAppointments() {
         try {
-            jwtUtil.CheckTheJWT(jwt);
             return new ResponseEntity<>(adminService.getAllAppointments(), HttpStatus.OK);
         } catch (AdminSystemException e) {
             return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);

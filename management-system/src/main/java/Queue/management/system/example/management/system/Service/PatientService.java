@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Date;
+import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -122,4 +123,61 @@ public class PatientService {
 
         appointmentRepo.delete(appointment);
     }
+
+    // New methods
+
+    public List<Appointment> getAppointmentsByTimestampRange(int patientId, Timestamp startTimestamp, Timestamp endTimestamp) throws PatientSystemException {
+        Patient patient = patientRepo.findById(patientId).orElseThrow(() -> new PatientSystemException(PatientErrMsg.PATIENT_NOT_FOUND));
+        return patient.getAppointments().stream()
+                .filter(appointment -> !appointment.getAppointmentDate().before(startTimestamp) &&
+                        !appointment.getAppointmentDate().after(endTimestamp))
+                .collect(Collectors.toList());
+    }
+
+    public Patient getPatientByEmail(String email) throws PatientSystemException {
+        return patientRepo.findByEmail(email).orElseThrow(() -> new PatientSystemException(PatientErrMsg.PATIENT_NOT_FOUND));
+    }
+
+    public List<Patient> getAllPatients() {
+        return patientRepo.findAll();
+    }
+
+    @Transactional
+    public void updateAppointment(Appointment updatedAppointment) throws PatientSystemException {
+        Appointment existingAppointment = appointmentRepo.findById(updatedAppointment.getId())
+                .orElseThrow(() -> new PatientSystemException(PatientErrMsg.APPOINTMENT_NOT_FOUND));
+
+        existingAppointment.setAppointmentDate(updatedAppointment.getAppointmentDate());
+        existingAppointment.setDoctorType(updatedAppointment.getDoctorType());
+        existingAppointment.setAppointmentStatus(updatedAppointment.getAppointmentStatus());
+
+        appointmentRepo.saveAndFlush(existingAppointment);
+    }
+
+    @Transactional
+    public void deletePatient(int patientId) throws PatientSystemException {
+        Patient patient = patientRepo.findById(patientId).orElseThrow(() -> new PatientSystemException(PatientErrMsg.PATIENT_NOT_FOUND));
+        patientRepo.delete(patient);
+    }
+
+    @Transactional
+    public void deleteAppointmentsByTimestampRange(Timestamp startTimestamp, Timestamp endTimestamp) {
+        List<Appointment> appointmentsToDelete = appointmentRepo.findAll().stream()
+                .filter(appointment -> !appointment.getAppointmentDate().before(startTimestamp) &&
+                        !appointment.getAppointmentDate().after(endTimestamp))
+                .collect(Collectors.toList());
+
+        appointmentsToDelete.forEach(appointment -> {
+            Patient patient = appointment.getPatient();
+            if (patient != null) {
+                patient.getAppointments().remove(appointment);
+                patientRepo.save(patient);
+            }
+            appointmentRepo.delete(appointment);
+        });
+
+
+
+    }
+
 }
