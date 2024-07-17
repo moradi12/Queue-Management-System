@@ -9,7 +9,6 @@ export class PatientModel {
   public phone: string;
   public password: string;
   public appointments: Appointment[];
-  public doctorType: DoctorType;
 
   constructor(
     id: number,
@@ -19,7 +18,6 @@ export class PatientModel {
     phone: string,
     password: string,
     appointments: Appointment[],
-    doctorType: DoctorType
   ) {
     this.id = id;
     this.firstName = firstName;
@@ -28,46 +26,6 @@ export class PatientModel {
     this.phone = phone;
     this.password = password;
     this.appointments = appointments;
-    this.doctorType = doctorType;
   }
 
-  public getId(): number {
-    return this.id;
-  }
-
-  public getFirstName(): string {
-    return this.firstName;
-  }
-
-  public getLastName(): string {
-    return this.lastName;
-  }
-
-  public getEmail(): string {
-    return this.email;
-  }
-
-  public getPhone(): string {
-    return this.phone;
-  }
-
-  public getPassword(): string {
-    return this.password;
-  }
-
-  public getAppointments(): Appointment[] {
-    return this.appointments;
-  }
-
-  public setAppointments(appointments: Appointment[]): void {
-    this.appointments = appointments;
-  }
-
-  public getDoctorType(): DoctorType {
-    return this.doctorType;
-  }
-
-  public setDoctorType(doctorType: DoctorType): void {
-    this.doctorType = doctorType;
-  }
 }

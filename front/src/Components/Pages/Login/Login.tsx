@@ -7,7 +7,7 @@ import { Button, ButtonGroup, Checkbox, MenuItem, Select, TextField, Typography 
 import { Store } from "../../../Redux/Store";
 import { UserType } from "../../../Models/UserType"; // Importing the UserType enum
 import axiosJWT from "../../../Utils/axiosJWT";
-import { jwtDecode } from "jwt-decode";
+import { jwtDecode } from "jwt-decode"; // Corrected import
 
 type userLoginData = {
     userEmail: string;
@@ -37,10 +37,15 @@ export function Login(): JSX.Element {
                 userType: data.userType.toUpperCase()
             };
 
-            const res = await axiosJWT.post("http://localhost:8080/user/login", userDetails);
+            console.log("Attempting login with user details:", userDetails);
+
+            const res = await axiosJWT.post("http://localhost:8080/auth/login", userDetails);
             const JWT = res.headers["authorization"].split(" ")[1];
+
+            console.log("Received JWT:", JWT);
+
             const decoded_jwt = jwtDecode<jwtData>(JWT);
-            console.log(decoded_jwt);
+            console.log("Decoded JWT:", decoded_jwt);
 
             const myAuth = {
                 id: decoded_jwt.id,
@@ -52,10 +57,20 @@ export function Login(): JSX.Element {
             };
 
             Store.dispatch(loginAction(myAuth));
+
+            // Save token to sessionStorage or localStorage based on userRemember
+            if (data.userRemember) {
+                localStorage.setItem("jwt", JWT);
+                console.log("JWT saved to localStorage");
+            } else {
+                sessionStorage.setItem("jwt", JWT);
+                console.log("JWT saved to sessionStorage");
+            }
+
             notify.success("Welcome back");
-            navigate("/");
+            navigate("/add"); // Use relative path for redirection
         } catch (err) {
-            console.error(err);
+            console.error("Login error:", err);
             notify.error("Bad user or password!");
         }
     };
@@ -89,7 +104,7 @@ export function Login(): JSX.Element {
                 <hr />
                 <ButtonGroup variant="contained" fullWidth>
                     <Button type="submit" color="success" style={{ marginRight: 10 }}>Login</Button>
-                    <Button color="error">Cancel</Button>
+                    <Button color="error" onClick={() => navigate("/")}>Cancel</Button>
                 </ButtonGroup>
             </form>
         </div>

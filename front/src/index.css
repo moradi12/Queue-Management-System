@@ -1,20 +1,27 @@
 html,
 body,
 #root {
-    margin: 10;
+    margin: 0; /* Removed incorrect margin value */
     padding: 0;
     height: 100%;
     text-align: center;
-    font-style: italic;
-    color: black;
-    background-image: linear-gradient(45deg, rgb(218, 241, 241), white);
+    font-family: 'Arial', sans-serif; /* Changed to a more readable font */
+    color: #333; /* Changed to a darker shade for better readability */
+    background-image: linear-gradient(45deg, #daf1f1, white);
 }
 
 .Box {
     display: inline-block;
-    border: 1px solid black;
-    padding: 30px;
-    margin: 10px;
-    border-radius: 10px;
-    box-shadow: 5px 5px 10px;
+    border: 1px solid #333; /* Changed to a darker shade for better contrast */
+    padding: 20px; /* Reduced padding for a sleeker look */
+    margin: 20px; /* Increased margin for better spacing */
+    border-radius: 15px; /* Increased border-radius for a softer look */
+    box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.1); /* Added a slight shadow for depth */
+    background-color: #fff; /* Added a background color for the box */
+    transition: transform 0.2s, box-shadow 0.2s; /* Added transition for hover effect */
+}
+
+.Box:hover {
+    transform: translateY(-5px); /* Added a hover effect */
+    box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.2); /* Enhanced shadow on hover */
 }

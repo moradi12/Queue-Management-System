@@ -1,250 +1,149 @@
-import { UserDetails } from '../Models/UserDetails';
-import { Appointment } from '../Models/Appointment';
-import { AppointmentStatus } from '../Models/AppointmentStatus';
-import { PatientModel } from '../Models/PatientModel';
-import { DoctorType } from '../Models/DoctorType';
-import { AdminActionType } from '../Models/AdminActionType';
+import { Appointment } from "../Models/Appointment";
+import { AppointmentStatus } from "../Models/AppointmentStatus";
+import { DoctorType } from "../Models/DoctorType";
+import { PatientModel } from "../Models/PatientModel";
+import { UserDetails } from "../Models/UserDetails";
 
-const initialState = {
-  users: [] as UserDetails[],
-  appointments: [] as Appointment[],
-  appointmentStatuses: [] as AppointmentStatus[],
-  doctorTypes: [] as DoctorType[],
-  patients: [] as PatientModel[],
-  singleAppointment: null as Appointment | null,
-  singlePatient: null as PatientModel | null,
-};
+export class AdminState {
+    appointments: Appointment[] = [];
+    patients: PatientModel[] = [];
+    userDetails: UserDetails | null = null;
+    // Add other state properties as needed
+        patient: PatientModel = new PatientModel(
+            0, // id
+            "", // firstName
+            "", // lastName
+            "", // email
+            "", // phone
+            "", // password
+            []  // appointments
+        );
 
-// Define action interfaces
-interface AddAppointmentAction {
-  type: AdminActionType.ADD_APPOINTMENT;
-  payload: Appointment;
+        appointment: Appointment = new Appointment(
+            0, // id
+            new Date(), // appointmentDate
+            AppointmentStatus.PENDING, // appointmentStatus (הגדרה ראשונית)
+            DoctorType.FAMILY_MEDICINE // doctorType (הגדרה ראשונית)
+        );
+    }
+
+// Define action types as an enum
+export enum AdminActionType {
+    addAppointment = "addAppointment",
+    addAppointmentToPatient = "addAppointmentToPatient",
+    addPatient = "addPatient",
+    allAppointments = "allAppointments",
+    getAppointmentsByDoctor = "getAppointmentsByDoctor",
+    getAllPatients = "getAllPatients",
+    deleteAppointment = "deleteAppointment",
+    deletePatients = "deletePatients",
+    getSingleAppointment = "getSingleAppointment",
+    getSinglePatient = "getSinglePatient",
+    updateAppointment = "updateAppointment",
+
 }
 
-interface AddAppointmentToPatientAction {
-  type: AdminActionType.ADD_APPOINTMENT_TO_PATIENT;
-  payload: { patientId: number; appointment: Appointment };
+// Define the AdminAction interface
+export interface AdminAction {
+    type: AdminActionType;
+    payload?: any;
 }
 
-interface AddPatientAction {
-  type: AdminActionType.ADD_PATIENT;
-  payload: PatientModel;
+// Define action creators
+export function addAppointmentAction(newAppointment: Appointment): AdminAction {
+    return { type: AdminActionType.addAppointment, payload: newAppointment};
 }
 
-interface AllAppointmentsAction {
-  type: AdminActionType.ALL_APPOINTMENTS;
-  payload: Appointment[];
+export function addAppointmentToPatientAction(appointment: Appointment): AdminAction {
+    return {type: AdminActionType.addAppointmentToPatient,payload:appointment};
 }
 
-interface GetAppointmentsByDoctorAction {
-  type: AdminActionType.GET_APPOINTMENTS_BY_DOCTOR;
-  payload: { doctorType: DoctorType; appointments: Appointment[] };
+export function addPatientAction(newPatient: PatientModel): AdminAction {
+    return {type: AdminActionType.addPatient, payload: newPatient};
 }
 
-interface GetAllPatientsAction {
-  type: AdminActionType.GET_ALL_PATIENTS;
-  payload: PatientModel[];
+export function allAppointmentsAction(appointments: Appointment[]): AdminAction {
+    return { type: AdminActionType.allAppointments, payload: appointments,
+    };
 }
 
-interface DeleteAppointmentAction {
-  type: AdminActionType.DELETE_APPOINTMENT;
-  payload: number;
+export function getAppointmentsByDoctorAction(appointment: Appointment[]): AdminAction {
+    return {type: AdminActionType.getAppointmentsByDoctor, payload: appointment};
 }
 
-interface DeletePatientsAction {
-  type: AdminActionType.DELETE_PATIENTS;
-  payload: number[];
+export function getAllPatientsAction(patients: PatientModel[]): AdminAction {
+    return {type: AdminActionType.getAllPatients, payload: patients,
+    };
 }
 
-interface GetSingleAppointmentAction {
-  type: AdminActionType.GET_SINGLE_APPOINTMENT;
-  payload: Appointment;
+export function deleteAppointmentAction(appointmentId: number): AdminAction {
+    return {type: AdminActionType.deleteAppointment, payload: appointmentId};
 }
 
-interface GetSinglePatientAction {
-  type: AdminActionType.GET_SINGLE_PATIENT;
-  payload: PatientModel;
+export function deletePatientsAction(patientId: number): AdminAction {
+    return {type: AdminActionType.deletePatients,payload: patientId};
 }
 
-interface UpdateAppointmentAction {
-  type: AdminActionType.UPDATE_APPOINTMENT;
-  payload: Appointment;
+export function getSingleAppointmentAction(appointment: Appointment): AdminAction {
+    return {type: AdminActionType.getSingleAppointment, payload: appointment};
 }
 
-interface UpdatePatientAction {
-  type: AdminActionType.UPDATE_PATIENT;
-  payload: PatientModel;
+export function getSinglePatientAction(patient: PatientModel): AdminAction {
+    return {type: AdminActionType.getSinglePatient, payload: patient};
 }
 
-interface GetAllAppointmentsByDoctorTypeAction {
-  type: AdminActionType.GET_ALL_APPOINTMENTS_BY_DOCTOR_TYPE;
-  payload: { doctorType: DoctorType; appointments: Appointment[] };
+export function updateAppointmentAction(updatedAppointment: Appointment): AdminAction {
+    return {type: AdminActionType.updateAppointment, payload: updatedAppointment};
 }
 
-type AdminActions =
-  | AddAppointmentAction
-  | AddAppointmentToPatientAction
-  | AddPatientAction
-  | AllAppointmentsAction
-  | GetAppointmentsByDoctorAction
-  | GetAllPatientsAction
-  | DeleteAppointmentAction
-  | DeletePatientsAction
-  | GetSingleAppointmentAction
-  | GetSinglePatientAction
-  | UpdateAppointmentAction
-  | UpdatePatientAction
-  | GetAllAppointmentsByDoctorTypeAction;
+export function updatePatientAction(updatedPatient: PatientModel): AdminAction {
+    return {type: AdminActionType.updateAppointment, payload: updatedPatient};
+}
 
-// Action creators
-export const addAppointment = (appointment: Appointment): AddAppointmentAction => ({
-  type: AdminActionType.ADD_APPOINTMENT,
-  payload: appointment,
-});
+export function getAllAppointmentsByDoctorTypeAction(Appointments: Appointment[]): AdminAction {
+    return {type: AdminActionType.getAppointmentsByDoctor, payload: Appointments};
+}
 
-export const addAppointmentToPatient = (patientId: number, appointment: Appointment): AddAppointmentToPatientAction => ({
-  type: AdminActionType.ADD_APPOINTMENT_TO_PATIENT,
-  payload: { patientId, appointment },
-});
-
-export const addPatient = (patient: PatientModel): AddPatientAction => ({
-  type: AdminActionType.ADD_PATIENT,
-  payload: patient,
-});
-
-export const allAppointments = (appointments: Appointment[]): AllAppointmentsAction => ({
-  type: AdminActionType.ALL_APPOINTMENTS,
-  payload: appointments,
-});
-
-export const getAppointmentsByDoctor = (doctorType: DoctorType, appointments: Appointment[]): GetAppointmentsByDoctorAction => ({
-  type: AdminActionType.GET_APPOINTMENTS_BY_DOCTOR,
-  payload: { doctorType, appointments },
-});
-
-export const getAllPatients = (patients: PatientModel[]): GetAllPatientsAction => ({
-  type: AdminActionType.GET_ALL_PATIENTS,
-  payload: patients,
-});
-
-export const deleteAppointment = (appointmentId: number): DeleteAppointmentAction => ({
-  type: AdminActionType.DELETE_APPOINTMENT,
-  payload: appointmentId,
-});
-
-export const deletePatients = (patientIds: number[]): DeletePatientsAction => ({
-  type: AdminActionType.DELETE_PATIENTS,
-  payload: patientIds,
-});
-
-export const getSingleAppointment = (appointment: Appointment): GetSingleAppointmentAction => ({
-  type: AdminActionType.GET_SINGLE_APPOINTMENT,
-  payload: appointment,
-});
-
-export const getSinglePatient = (patient: PatientModel): GetSinglePatientAction => ({
-  type: AdminActionType.GET_SINGLE_PATIENT,
-  payload: patient,
-});
-
-export const updateAppointment = (appointment: Appointment): UpdateAppointmentAction => ({
-  type: AdminActionType.UPDATE_APPOINTMENT,
-  payload: appointment,
-});
-
-export const updatePatient = (patient: PatientModel): UpdatePatientAction => ({
-  type: AdminActionType.UPDATE_PATIENT,
-  payload: patient,
-});
-
-export const getAllAppointmentsByDoctorType = (doctorType: DoctorType, appointments: Appointment[]): GetAllAppointmentsByDoctorTypeAction => ({
-  type: AdminActionType.GET_ALL_APPOINTMENTS_BY_DOCTOR_TYPE,
-  payload: { doctorType, appointments },
-});
-
-// Reducer function
-const adminReducer = (state = initialState, action: AdminActions) => {
-  switch (action.type) {
-    case AdminActionType.ADD_APPOINTMENT:
-      return {
-        ...state,
-        appointments: [...state.appointments, action.payload],
-      };
-    case AdminActionType.ADD_APPOINTMENT_TO_PATIENT:
-      return {
-        ...state,
-        patients: state.patients.map(patient =>
-          patient.id === action.payload.patientId
-            ? { ...patient, appointments: [...patient.appointments, action.payload.appointment] }
-            : patient
-        ),
-      };
-    case AdminActionType.ADD_PATIENT:
-      return {
-        ...state,
-        patients: [...state.patients, action.payload],
-      };
-    case AdminActionType.ALL_APPOINTMENTS:
-      return {
-        ...state,
-        appointments: action.payload,
-      };
-    case AdminActionType.GET_APPOINTMENTS_BY_DOCTOR:
-      return {
-        ...state,
-        appointments: action.payload.appointments.filter(
-          appointment => appointment.doctorType === action.payload.doctorType
-        ),
-      };
-    case AdminActionType.GET_ALL_PATIENTS:
-      return {
-        ...state,
-        patients: action.payload,
-      };
-    case AdminActionType.DELETE_APPOINTMENT:
-      return {
-        ...state,
-        appointments: state.appointments.filter(appointment => appointment.id !== action.payload),
-      };
-    case AdminActionType.DELETE_PATIENTS:
-      return {
-        ...state,
-        patients: state.patients.filter(patient => !action.payload.includes(patient.id)),
-      };
-    case AdminActionType.GET_SINGLE_APPOINTMENT:
-      return {
-        ...state,
-        singleAppointment: action.payload,
-      };
-    case AdminActionType.GET_SINGLE_PATIENT:
-      return {
-        ...state,
-        singlePatient: action.payload,
-      };
-    case AdminActionType.UPDATE_APPOINTMENT:
-      return {
-        ...state,
-        appointments: state.appointments.map(appointment =>
-          appointment.id === action.payload.id ? action.payload : appointment
-        ),
-      };
-    case AdminActionType.UPDATE_PATIENT:
-      return {
-        ...state,
-        patients: state.patients.map(patient =>
-          patient.id === action.payload.id ? action.payload : patient
-        ),
-      };
-    case AdminActionType.GET_ALL_APPOINTMENTS_BY_DOCTOR_TYPE:
-      return {
-        ...state,
-        appointments: action.payload.appointments.filter(
-          appointment => appointment.doctorType === action.payload.doctorType
-        ),
-      };
-    default:
-      return state;
-  }
-};
-
-export default adminReducer;
+// Define the reducer function
+export function AdminReducer(currentState: AdminState = new AdminState(), action: AdminAction): AdminState {
+    const newState = { ...currentState };
+    switch (action.type) {
+        case AdminActionType.addAppointment:
+            newState.appointments = [...newState.appointments, action.payload];
+            break;     
+        case AdminActionType.addAppointmentToPatient:
+            newState.appointments = [...newState.appointments, action.payload];
+            break;
+        case AdminActionType.addPatient:
+            newState.patients = [...newState.patients, action.payload];
+            break;
+        case AdminActionType.allAppointments:
+            newState.appointments = action.payload;
+            break;
+        case AdminActionType.getAppointmentsByDoctor:
+            newState.appointments = [...newState.appointments].filter((item) => item.doctorType ===action.payload);
+            break;
+        case AdminActionType.getAllPatients:
+            newState.patients = action.payload;
+            break;
+        case AdminActionType.deleteAppointment:
+            newState.appointments = newState.appointments.filter(app => app.id !== action.payload);
+            break;
+        case AdminActionType.deletePatients:
+            newState.patients = newState.patients.filter(patient => patient.id !== action.payload);
+            break;
+        case AdminActionType.getSingleAppointment:
+            newState.appointment = action.payload;
+            break;
+        case AdminActionType.getSinglePatient:
+            newState.patient = action.payload;
+            break;
+        case AdminActionType.updateAppointment:
+            newState.appointments = newState.appointments.map(app => 
+                app.id === action.payload.id ? action.payload : app
+            );
+            break;
+       
+    }
+    return newState;
+}

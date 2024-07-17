@@ -1,21 +1,14 @@
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
+import { AdminReducer } from "./AdminReducer";
 import { AuthReducer } from "./AuthReducer";
-import { subscribeReducer } from "./subscribeReducer";
-import adminReducer from "./AdminReducer";
 
-const reducers = combineReducers({ 
+const reducers = combineReducers({
+    admin: AdminReducer,
     auth: AuthReducer,
-    subscribe: subscribeReducer, // Add your subscribe reducer
-    admin:adminReducer
-    
 });
 
 export const Store = configureStore({
     reducer: reducers,
-    middleware: (getDefaultMiddleware) => getDefaultMiddleware({ serializableCheck: false })
-});
-
-// Subscribe to store changes
-Store.subscribe(() => {
-    console.log('Store updated:', Store.getState());
+    middleware: (getDefaultMiddleware) =>
+        getDefaultMiddleware({ serializableCheck: false, }),
 });

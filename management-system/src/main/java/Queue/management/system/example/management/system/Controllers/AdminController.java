@@ -76,8 +76,6 @@ public class AdminController {
         }
     }
 
-
-
     @PostMapping("/appointment")
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<String> createAppointment(@RequestHeader("Authorization") String jwt, @RequestBody Appointment appointment) {
@@ -119,8 +117,9 @@ public class AdminController {
     }
 
     @GetMapping("/appointments")
-    public ResponseEntity<List<Appointment>> getAllAppointments() {
+    public ResponseEntity<List<Appointment>> getAllAppointments(@RequestHeader("Authorization") String jwt) {
         try {
+            jwtUtil.CheckTheJWT(jwt);
             return new ResponseEntity<>(adminService.getAllAppointments(), HttpStatus.OK);
         } catch (AdminSystemException e) {
             return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
@@ -156,10 +155,11 @@ public class AdminController {
 
     @DeleteMapping("/delete/patient/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public ResponseEntity<String> deletePatient(@PathVariable int id) {
+    public ResponseEntity<String> deletePatient(@RequestHeader("Authorization") String jwt, @PathVariable int id) {
         try {
+            HttpHeaders headers = jwtUtil.CheckTheJWT(jwt);
             adminService.forceDeletePatient(id);
-            return new ResponseEntity<>("Patient and associated appointments deleted successfully", HttpStatus.NO_CONTENT);
+            return new ResponseEntity<>("Patient and associated appointments deleted successfully", headers, HttpStatus.NO_CONTENT);
         } catch (AdminSystemException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         } catch (Exception e) {
@@ -169,18 +169,17 @@ public class AdminController {
 
     @DeleteMapping("/delete/appointment/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public ResponseEntity<String> deleteAppointment(@PathVariable int id) {
+    public ResponseEntity<String> deleteAppointment(@RequestHeader("Authorization") String jwt, @PathVariable int id) {
         try {
+            HttpHeaders headers = jwtUtil.CheckTheJWT(jwt);
             adminService.forceDeleteAppointment(id);
-            return new ResponseEntity<>("Appointment deleted successfully", HttpStatus.NO_CONTENT);
+            return new ResponseEntity<>("Appointment deleted successfully", headers, HttpStatus.NO_CONTENT);
         } catch (AdminSystemException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         } catch (Exception e) {
             return new ResponseEntity<>("Invalid request", HttpStatus.BAD_REQUEST);
         }
     }
-
-
 
     @GetMapping("/all/doctors")
     public ResponseEntity<List<DoctorType>> getAllDoctors(@RequestHeader("Authorization") String jwt) {

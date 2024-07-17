@@ -1,4 +1,4 @@
-package Queue.management.system.example.management.system.Controller;
+package Queue.management.system.example.management.system.Controllers;
 
 import Queue.management.system.example.management.system.Beans.Credentials;
 import Queue.management.system.example.management.system.Beans.UserDetails;
@@ -21,7 +21,6 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class UserController {
     private final LoginService loginService;
-
     private final JWT jwt;
 
     @PostMapping("/register")
@@ -39,7 +38,7 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody Credentials credentials) throws LoginException {
+    public ResponseEntity<?> login(@RequestBody Credentials credentials) {
         try {
             UserDetails user = loginService.loginUser(credentials);
             HttpHeaders headers = new HttpHeaders();
@@ -48,8 +47,7 @@ public class UserController {
             map.put("id", user.getUserId());
             map.put("userName", user.getUserName());
             return new ResponseEntity<>(map, headers, HttpStatus.CREATED);
-        } catch (LoginException | PatientSystemException |
-                 AdminSystemException e) {
+        } catch (LoginException | PatientSystemException | AdminSystemException e) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Login failed: " + e.getMessage());
         }
     }

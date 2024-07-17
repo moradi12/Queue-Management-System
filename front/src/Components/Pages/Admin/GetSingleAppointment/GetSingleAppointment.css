@@ -1,3 +1,6 @@
 .GetSingleAppointment {
+    width: 100;
+    grid-template-columns: 20% 50% 30%;
 	
 }
+

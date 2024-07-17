@@ -60,7 +60,7 @@ public class LoginService {
     }
 
     private UserDetails validateAdminCredentials(Credentials credentials) throws LoginException {
-        if ("admin@admin.com".equals(credentials.getEmail()) && "admin".equals(credentials.getPassword())) {
+        if ("admin@admin.com".equals(credentials.getEmail()) && "adminMed".equals(credentials.getPassword())) {
             return UserDetails.builder()
                     .email(credentials.getEmail())
                     .userName("Admin")

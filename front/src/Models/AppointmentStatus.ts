@@ -3,5 +3,5 @@ export enum AppointmentStatus {
     CANCELLED = "CANCELLED",
     CONFIRMED = "CONFIRMED",
     AVAILABLE = "AVAILABLE",
-    Pending = "Pending"
+    PENDING = "PENDING"
 }

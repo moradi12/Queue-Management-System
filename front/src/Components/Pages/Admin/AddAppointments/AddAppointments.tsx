@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios, { AxiosError } from "axios";
 import "./AddAppointments.css";
@@ -9,11 +9,21 @@ import { Store } from "../../../../Redux/Store";
 import { notify } from "../../../../Utils/notif";
 import { DoctorType } from "../../../../Models/DoctorType";
 import { AppointmentStatus } from "../../../../Models/AppointmentStatus";
+import { UserType } from "../../../../Models/UserType";
 
 export function AddAppointments(): JSX.Element {
   const navigate = useNavigate();
   const { register, handleSubmit, formState: { errors } } = useForm<Appointment>();
 
+  useEffect(() => {
+    if (Store.getState().auth.userType !== UserType.ADMIN && Store.getState().auth.userType !== UserType.PATIENT) {
+      navigate("/all");
+      notify.error("You are not authorized to view this page.");
+      return;
+    }
+  }, [navigate]);
+  
+  
   const onSubmit = async (data: Appointment) => {
     const token = Store.getState().auth.token;
     try {
@@ -27,7 +37,7 @@ export function AddAppointments(): JSX.Element {
         }
       );
       notify.success("Appointment created successfully");
-      navigate("/appointments");
+      navigate("/");
     } catch (error) {
       const typedError = error as AxiosError;
       notify.error(typedError.response?.data as string || "Something went wrong");
@@ -57,6 +67,8 @@ export function AddAppointments(): JSX.Element {
               <TextField
                 select
                 label="Doctor Type"
+                defaultValue={DoctorType.FAMILY_MEDICINE}
+
                 fullWidth
                 {...register("doctorType", { required: "Doctor type is required" })}
                 error={!!errors.doctorType}
@@ -73,6 +85,7 @@ export function AddAppointments(): JSX.Element {
               <TextField
                 select
                 label="Appointment Status"
+                defaultValue={AppointmentStatus.AVAILABLE}
                 fullWidth
                 {...register("appointmentStatus", { required: "Appointment status is required" })}
                 error={!!errors.appointmentStatus}

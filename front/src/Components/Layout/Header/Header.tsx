@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./Header.css";
 import { useNavigate } from "react-router-dom";
 import { Button, ButtonGroup } from "@mui/material";
-import { AuthAction, logoutAction } from "../../../Redux/AuthReducer";
+import { logoutAction } from "../../../Redux/AuthReducer";
+import { Store } from "../../../Redux/Store";
 
 export function Header(): JSX.Element {
 
@@ -10,9 +11,17 @@ export function Header(): JSX.Element {
     const [userName, setName] = useState("");
     const navigate = useNavigate();
 
-    function dispatch(arg0: AuthAction) {
-        throw new Error("Function not implemented.");
-    }
+    useEffect(() => {
+        const unsubscribe = Store.subscribe(() => {
+            const state = Store.getState();
+            setName(state.auth.name);
+            setLogged(state.auth.isLogged);
+        });
+
+        return () => {
+            unsubscribe();
+        };
+    }, []);
 
     return (
         <header className="Header">
@@ -30,7 +39,8 @@ export function Header(): JSX.Element {
                         onClick={() => {
                             if (isLogged) {
                                 sessionStorage.removeItem("jwt");
-                                dispatch(logoutAction());
+                                localStorage.removeItem("jwt");
+                                Store.dispatch(logoutAction());
                                 navigate("/login");
                             } else {
                                 navigate("/login");
@@ -39,7 +49,7 @@ export function Header(): JSX.Element {
                     >
                         {isLogged ? "Logout" : "Login"}
                     </Button>
-                    {!isLogged && <Button color="success" onClick={() => navigate("/register")}>register</Button>}
+                    {!isLogged && <Button color="success" onClick={() => navigate("/register")}>Register</Button>}
                 </ButtonGroup>
             </div>
         </header>
