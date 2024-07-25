@@ -12,26 +12,28 @@ type UserDetails = {
     userType: 'PATIENT' | 'ADMIN';
 };
 
+const REGISTER_URL = "http://localhost:8080/auth/register";
+
 export function Register(): JSX.Element {
     const navigate = useNavigate();
     const { register, handleSubmit, formState: { errors } } = useForm<UserDetails>();
 
-    const onSubmit: SubmitHandler<UserDetails> = async (data) => {
-        try {
-            const response = await axios.post("http://localhost:8080/register", data);
-            const token = response.data;
-            axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-
-            notify.success("Registration successful");
-            navigate("/login");
-        } catch (error) {
-            console.error(error);
-            if (axios.isAxiosError(error) && error.response) {
-                notify.error(`Registration failed: ${error.response.data}`);
-            } else {
-                notify.error("Registration failed: An unexpected error occurred.");
-            }
-        }
+    const onSubmit: SubmitHandler<UserDetails> = (data) => {
+        axios.post(REGISTER_URL, data)
+            .then(response => {
+                const token = response.data;
+                axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+                notify.success("Registration successful");
+                navigate("/login");
+            })
+            .catch(error => {
+                console.error(error);
+                if (axios.isAxiosError(error) && error.response) {
+                    notify.error(`Registration failed: ${error.response.data}`);
+                } else {
+                    notify.error("Registration failed: An unexpected error occurred.");
+                }
+            });
     };
 
     return (
@@ -45,6 +47,7 @@ export function Register(): JSX.Element {
                     {...register("email", { required: "Email is required" })}
                     error={!!errors.email}
                     helperText={errors.email?.message}
+                    className="MuiTextField-root"
                 /><br /><br />
                 <TextField
                     label="Password"
@@ -53,12 +56,14 @@ export function Register(): JSX.Element {
                     {...register("password", { required: "Password is required" })}
                     error={!!errors.password}
                     helperText={errors.password?.message}
+                    className="MuiTextField-root"
                 /><br /><br />
                 <Select
                     fullWidth
                     defaultValue=""
                     {...register("userType", { required: "User type is required" })}
                     error={!!errors.userType}
+                    className="MuiSelect-root"
                 >
                     <MenuItem value="" disabled>Select User Type</MenuItem>
                     <MenuItem value="PATIENT">Patient</MenuItem>
@@ -66,9 +71,9 @@ export function Register(): JSX.Element {
                 </Select>
                 {errors.userType && <p className="error">{errors.userType.message}</p>}
                 <hr />
-                <ButtonGroup variant="contained" fullWidth>
-                    <Button type="submit" color="success" style={{ marginRight: 10 }}>Register</Button>
-                    <Button color="error" onClick={() => navigate("/login")}>Cancel</Button>
+                <ButtonGroup variant="contained" fullWidth className="MuiButtonGroup-root">
+                    <Button type="submit" color="primary" className="MuiButton-containedPrimary">Register</Button>
+                    <Button color="secondary" className="MuiButton-containedSecondary" onClick={() => navigate("/login")}>Cancel</Button>
                 </ButtonGroup>
             </form>
         </div>

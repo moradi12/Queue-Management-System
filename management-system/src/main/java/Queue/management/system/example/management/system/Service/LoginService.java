@@ -27,11 +27,12 @@ public class LoginService {
                 System.out.println("Registering Patient: " + user.getEmail());
                 Patient patient = Patient.builder()
                         .id(0)
-                        .firstName(user.getUserName().split("_")[0])
-                        .lastName(user.getUserName().split("_")[1])
+                        .firstName("") // Provide a default first name
+                        .lastName("") // Provide a default last name
                         .email(user.getEmail())
                         .password(user.getPassword())
                         .build();
+                patientService.addPatient(patient);
                 break;
             default:
                 throw new LoginException("Invalid user type");

@@ -1,3 +1,85 @@
 .Register {
-	
+    max-width: 500px;
+    margin: 50px auto;
+    padding: 30px;
+    border: 2px solid #4a90e2;
+    border-radius: 15px;
+    background: linear-gradient(135deg, #e2e2e2, #ffffff);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+}
+
+.HeadLine {
+    text-align: center;
+    margin-bottom: 30px;
+    color: #333;
+    font-family: 'Roboto', sans-serif;
+    font-size: 2rem;
+}
+
+.Box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+form {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.MuiTextField-root, .MuiSelect-root {
+    margin-bottom: 25px;
+    background-color: #f9f9f9;
+    border-radius: 5px;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.MuiButtonGroup-root {
+    margin-top: 30px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.MuiButton-containedPrimary {
+    background-color: #4a90e2;
+    color: #fff;
+}
+
+.MuiButton-containedPrimary:hover {
+    background-color: #357ab8;
+}
+
+.MuiButton-containedSecondary {
+    background-color: #e94e77;
+    color: #fff;
+}
+
+.MuiButton-containedSecondary:hover {
+    background-color: #c44164;
+}
+
+hr {
+    width: 100%;
+    margin: 25px 0;
+    border: 0;
+    border-top: 1px solid #ccc;
+}
+
+.error {
+    color: #e94e77;
+    margin-top: -15px;
+    margin-bottom: 15px;
+}
+
+@media (max-width: 600px) {
+    .Register {
+        margin: 20px;
+        padding: 25px;
+    }
+
+    .HeadLine {
+        font-size: 1.5rem;
+    }
 }

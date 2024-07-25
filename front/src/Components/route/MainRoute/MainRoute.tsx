@@ -9,8 +9,9 @@ import { GetSinglePatient } from "../../Pages/Admin/GetSinglePatient/GetSinglePa
 import { DeleteAppointment } from "../../Pages/Admin/DeleteAppointment/DeleteAppointment";
 import { DeletePatients } from "../../Pages/Admin/DeletePatients/DeletePatients";
 import { AddAppointments } from "../../Pages/Admin/AddAppointments/AddAppointments";
-import { Login } from "../../Pages/Login/Login"; // Importing the Login component
 import { AllAppointments } from "../../Pages/Admin/AllAppointments/AllAppointments";
+import { Register } from "../../Pages/Register/Register";
+import { Login } from "../../Pages/Login/Login";
 
 export function MainRoute(): JSX.Element {
   return (
@@ -26,7 +27,10 @@ export function MainRoute(): JSX.Element {
         {/* <Route path="/update/appointment/:id" element={<UpdateAppointment />} /> */}
         <Route path="/delete/patients/:id" element={<DeletePatients />} />
         <Route path="/get/single/patient/:id" element={<GetSinglePatient />} />
-        <Route path="/login" element={<Login />} /> {/* Added the Login route */}
+        <Route path="/register" element={<Register />} />
+        <Route path="/login" element={<Login />} />
+
+
         <Route path="*" element={<Page404 />} />
       </Routes>
     </div>

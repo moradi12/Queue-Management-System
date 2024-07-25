@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.*;
 import javax.security.auth.login.LoginException;
 import java.util.HashMap;
 import java.util.Map;
-
 @RestController
 @RequestMapping("/auth")
 @RequiredArgsConstructor
@@ -25,6 +24,7 @@ public class UserController {
 
     @PostMapping("/register")
     public ResponseEntity<?> registerUser(@RequestBody UserDetails userDetails) {
+        System.out.println("Received user details for registration: " + userDetails);
         try {
             String token = loginService.register(userDetails);
             HttpHeaders headers = new HttpHeaders();
