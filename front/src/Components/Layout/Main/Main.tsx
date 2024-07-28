@@ -12,7 +12,7 @@ export function Main(): JSX.Element {
             .then(response => response.data)
             .then(data => setAppointments(data))
             .catch(error => {
-                console.error(error);
+                // console.error(error);
             });
     }, []);
 

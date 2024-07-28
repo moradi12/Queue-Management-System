@@ -8,7 +8,6 @@ export class PatientModel {
   public email: string;
   public phone: string;
   public password: string;
-  public appointments: Appointment[];
 
   constructor(
     id: number,
@@ -17,7 +16,6 @@ export class PatientModel {
     email: string,
     phone: string,
     password: string,
-    appointments: Appointment[],
   ) {
     this.id = id;
     this.firstName = firstName;
@@ -25,7 +23,6 @@ export class PatientModel {
     this.email = email;
     this.phone = phone;
     this.password = password;
-    this.appointments = appointments;
   }
 
 }

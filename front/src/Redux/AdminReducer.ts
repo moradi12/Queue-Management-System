@@ -16,7 +16,6 @@ export class AdminState {
             "", // email
             "", // phone
             "", // password
-            []  // appointments
         );
 
         appointment: Appointment = new Appointment(
