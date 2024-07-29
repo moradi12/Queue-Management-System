@@ -103,7 +103,7 @@ public class AdminController {
         }
     }
 
-    @PutMapping("/appointment")
+    @PutMapping("/update/appointment")
     public ResponseEntity<String> updateAppointment(@RequestHeader("Authorization") String jwt, @RequestBody Appointment appointment) {
         try {
             HttpHeaders headers = jwtUtil.CheckTheJWT(jwt);

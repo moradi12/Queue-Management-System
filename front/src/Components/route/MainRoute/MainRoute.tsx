@@ -11,6 +11,7 @@ import { AllAppointments } from "../../Pages/Admin/AllAppointments/AllAppointmen
 import { Register } from "../../Pages/Register/Register";
 import { Login } from "../../Pages/Login/Login";
 import { GetAllAppointmentsByDoctorType } from "../../Pages/Admin/GetAllAppointmentsByDoctorType/GetAllAppointmentsByDoctorType";
+import { UpdateAppointment } from "../../Pages/Admin/UpdateAppointment/UpdateAppointment";
 
 export function MainRoute(): JSX.Element {
   return (
@@ -22,7 +23,7 @@ export function MainRoute(): JSX.Element {
         <Route path="/add/patients" element={<AddPatients />} />
         <Route path="/all/patients" element={<GetAllPatients />} />
         <Route path="/all/appointments/by/doctor" element={<GetAllAppointmentsByDoctorType />} />
-        {/* <Route path="/update/appointment/:id" element={<UpdateAppointment />} /> */}
+        <Route path="/update/appointment/:id" element={<UpdateAppointment />} />
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<Login />} />
 

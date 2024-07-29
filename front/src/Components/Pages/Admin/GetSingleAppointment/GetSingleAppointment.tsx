@@ -15,7 +15,7 @@ interface appointmentProps{
 export function GetSingleAppointment(props:appointmentProps): JSX.Element {
     const navigate = useNavigate();
     return (
-        <div className="SingleAppointment Box">
+        <div className="GetSingleAppointment Box">
             <div className="Grid-Parent">          
 			<div className="Grid-Child">
                 {/* <img src={logo} width={100}/> */}
@@ -25,19 +25,23 @@ export function GetSingleAppointment(props:appointmentProps): JSX.Element {
                 <p> When? {props.appointemnt.appointmentDate.toString()}</p>
                 <p> Status? {props.appointemnt.appointmentStatus}</p>
             </div>
-            <div className="updateAppointment " onClick={()=>{
-                <br/>
+            <div className="updateAppointment" onClick={()=>{
                 navigate(`/update/appointment/${props.appointemnt.id}`); }}>
                     <Button variant="contained" color="info">Update Appointment</Button>
-                    </div>
-            <div className="delete" onClick={()=>axiosJWT.delete(`http://localhost:8080/delete/appointment/${props.appointemnt.id}`)
-        .then(res=>{
-            Store.dispatch(deleteAppointmentAction(res.data))
-            notify.success("Appointment deleted successfully.");
-            navigate("/all");
-        })
-        .catch(err=>{notify.error("cannot delete appointment")})}>
-                    <Button variant="contained" color="error">Delete Appointment</Button>
+            </div><br />
+            <div className="delete" onClick={()=>{
+                axiosJWT.delete(`/api/admin/delete/appointment/${props.appointemnt.id}`)
+                .then(res=>{
+                    Store.dispatch(deleteAppointmentAction(res.data));
+                    notify.success("Appointment deleted successfully!")
+                    navigate("/");
+                })
+                .catch(err=>{
+                    notify.error("Cannot delete appointment");
+                })
+            }}>
+                <Button variant="contained" color="error" >Delete Appointment</Button>
+
             </div>
             </div>
         </div>

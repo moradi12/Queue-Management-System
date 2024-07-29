@@ -123,12 +123,28 @@ public class AdminService {
         return appointmentRepo.findAll();
     }
 
+//    public void updateAppointment(Appointment appointment) throws AdminSystemException {
+//        if (!appointmentRepo.existsById(appointment.getId())) {
+//            throw new AdminSystemException(AdminErrMsg.APPOINTMENT_NOT_FOUND);
+//        }
+//        appointmentRepo.saveAndFlush(appointment);
+//    }
+
+
+    @Transactional
     public void updateAppointment(Appointment appointment) throws AdminSystemException {
-        if (!appointmentRepo.existsById(appointment.getId())) {
-            throw new AdminSystemException(AdminErrMsg.APPOINTMENT_NOT_FOUND);
-        }
-        appointmentRepo.saveAndFlush(appointment);
+        Appointment existingAppointment = appointmentRepo.findById(appointment.getId()).orElseThrow(() ->
+                new AdminSystemException(AdminErrMsg.APPOINTMENT_NOT_FOUND));
+
+        // Update the fields of the existing appointment
+        existingAppointment.setAppointmentDate(appointment.getAppointmentDate());
+        existingAppointment.setAppointmentStatus(appointment.getAppointmentStatus());
+        existingAppointment.setDoctorType(appointment.getDoctorType());
+
+        appointmentRepo.saveAndFlush(existingAppointment);
     }
+
+
 
     public void createAppointment(Appointment appointment) throws AdminSystemException {
         if (appointmentRepo.existsById(appointment.getId())) {
