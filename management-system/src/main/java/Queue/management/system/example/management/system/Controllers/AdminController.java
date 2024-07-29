@@ -103,18 +103,41 @@ public class AdminController {
         }
     }
 
+
     @PutMapping("/update/appointment")
     public ResponseEntity<String> updateAppointment(@RequestHeader("Authorization") String jwt, @RequestBody Appointment appointment) {
         try {
             HttpHeaders headers = jwtUtil.CheckTheJWT(jwt);
-            adminService.updateAppointment(appointment);
+            System.out.println("Received update request for appointment ID: " + appointment.getId());
+
+            Appointment updatedAppointment = adminService.updateAppointment(appointment);
+            System.out.println("Appointment updated successfully with ID: " + updatedAppointment.getId());
             return new ResponseEntity<>("Appointment updated successfully", headers, HttpStatus.OK);
         } catch (AdminSystemException e) {
+            System.out.println("Error: " + e.getMessage());
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         } catch (Exception e) {
+            System.out.println("Invalid token");
             return new ResponseEntity<>("Invalid token", HttpStatus.UNAUTHORIZED);
         }
     }
+
+//
+//    @PutMapping("/update/appointment")
+//    public ResponseEntity<String> updateAppointment(@RequestHeader("Authorization") String jwt, @RequestBody Appointment appointment) {
+//        try {
+//            HttpHeaders headers = jwtUtil.CheckTheJWT(jwt);
+//            adminService.updateAppointment(appointment);
+//            return new ResponseEntity<>("Appointment updated successfully", headers, HttpStatus.OK);
+//        } catch (AdminSystemException e) {
+//            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+//        } catch (Exception e) {
+//            return new ResponseEntity<>("Invalid token", HttpStatus.UNAUTHORIZED);
+//        }
+//    }
+
+
+
 
     @GetMapping("/appointments")
     public ResponseEntity<List<Appointment>> getAllAppointments(@RequestHeader("Authorization") String jwt) {

@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -131,18 +132,33 @@ public class AdminService {
 //    }
 
 
-    @Transactional
-    public void updateAppointment(Appointment appointment) throws AdminSystemException {
-        Appointment existingAppointment = appointmentRepo.findById(appointment.getId()).orElseThrow(() ->
-                new AdminSystemException(AdminErrMsg.APPOINTMENT_NOT_FOUND));
+//    @Transactional
+//    public void updateAppointment(Appointment appointment) throws AdminSystemException {
+//        Appointment existingAppointment = appointmentRepo.findById(appointment.getId()).orElseThrow(() ->
+//                new AdminSystemException(AdminErrMsg.APPOINTMENT_NOT_FOUND));
+//
+//        // Update the fields of the existing appointment
+//        existingAppointment.setAppointmentDate(appointment.getAppointmentDate());
+//        existingAppointment.setAppointmentStatus(appointment.getAppointmentStatus());
+//        existingAppointment.setDoctorType(appointment.getDoctorType());
+//
+//        appointmentRepo.saveAndFlush(existingAppointment);
+//    }
 
-        // Update the fields of the existing appointment
+    public Appointment updateAppointment(Appointment appointment) throws AdminSystemException {
+        Optional<Appointment> existingAppointmentOpt = appointmentRepo.findById(appointment.getId());
+        if (!existingAppointmentOpt.isPresent()) {
+            throw new AdminSystemException(AdminErrMsg.APPOINTMENT_NOT_FOUND);
+        }
+
+        Appointment existingAppointment = existingAppointmentOpt.get();
         existingAppointment.setAppointmentDate(appointment.getAppointmentDate());
         existingAppointment.setAppointmentStatus(appointment.getAppointmentStatus());
         existingAppointment.setDoctorType(appointment.getDoctorType());
 
-        appointmentRepo.saveAndFlush(existingAppointment);
+        return appointmentRepo.saveAndFlush(existingAppointment);
     }
+
 
 
 
