@@ -1,3 +1,78 @@
 .GetAllAppointmentsByDoctorType {
-	
+    padding: 20px;
+    margin: 0 auto;
+    max-width: 650px;
+    background-color: #f0f4f8;
+    border-radius: 12px;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+    font-family: 'Roboto', sans-serif;
+}
+
+.GetAllAppointmentsByDoctorType .Box {
+    padding: 25px;
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-bottom: 25px;
+}
+
+.GetAllAppointmentsByDoctorType .Box hr {
+    border: none;
+    border-top: 1px solid #d0d0d0;
+    margin: 25px 0;
+}
+
+.GetAllAppointmentsByDoctorType .appointmentList {
+    padding: 25px;
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.GetAllAppointmentsByDoctorType .appointmentList hr {
+    border: none;
+    border-top: 1px solid #d0d0d0;
+    margin: 25px 0;
+}
+
+.GetAllAppointmentsByDoctorType .MuiTypography-root {
+    margin-bottom: 12px;
+    color: #444444;
+}
+
+.GetAllAppointmentsByDoctorType .MuiTextField-root {
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+.GetAllAppointmentsByDoctorType .MuiButtonGroup-root {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 25px;
+}
+
+.GetAllAppointmentsByDoctorType .MuiButton-root {
+    min-width: 110px;
+    padding: 10px 20px;
+    font-size: 16px;
+}
+
+.GetAllAppointmentsByDoctorType .MuiButton-root:first-of-type {
+    background-color: #1e88e5;
+    color: #ffffff;
+    transition: background-color 0.3s ease;
+}
+
+.GetAllAppointmentsByDoctorType .MuiButton-root:first-of-type:hover {
+    background-color: #1565c0;
+}
+
+.GetAllAppointmentsByDoctorType .MuiButton-root:last-of-type {
+    background-color: #e53935;
+    color: #ffffff;
+    transition: background-color 0.3s ease;
+}
+
+.GetAllAppointmentsByDoctorType .MuiButton-root:last-of-type:hover {
+    background-color: #c62828;
 }
