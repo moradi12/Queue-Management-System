@@ -152,7 +152,7 @@ public class AdminService {
         }
 
         Appointment existingAppointment = existingAppointmentOpt.get();
-        existingAppointment.setAppointmentDate(appointment.getAppointmentDate());
+        existingAppointment.setAppointmentDateTime(appointment.getAppointmentDateTime());
         existingAppointment.setAppointmentStatus(appointment.getAppointmentStatus());
         existingAppointment.setDoctorType(appointment.getDoctorType());
 

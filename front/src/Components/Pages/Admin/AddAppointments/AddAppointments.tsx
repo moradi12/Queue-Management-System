@@ -22,12 +22,11 @@ export function AddAppointments(): JSX.Element {
       return;
     }
   }, [navigate]);
-  
-  
+
   const onSubmit = async (data: Appointment) => {
     const token = Store.getState().auth.token;
     try {
-      const response = await axios.post(
+      await axios.post(
         "http://localhost:8080/api/admin/appointment",
         data,
         {
@@ -54,13 +53,13 @@ export function AddAppointments(): JSX.Element {
           <Grid container spacing={2}>
             <Grid item xs={12}>
               <TextField
-                label="Appointment Date"
-                type="date"
+                label="Appointment Date & Time"
+                type="datetime-local" // Updated to datetime-local
                 fullWidth
                 InputLabelProps={{ shrink: true }}
-                {...register("appointmentDate", { required: "Appointment date is required" })}
-                error={!!errors.appointmentDate}
-                helperText={errors.appointmentDate?.message}
+                {...register("appointmentDateTime", { required: "Appointment date and time are required" })} // Updated field name
+                error={!!errors.appointmentDateTime}
+                helperText={errors.appointmentDateTime?.message}
               />
             </Grid>
             <Grid item xs={12}>
@@ -68,7 +67,6 @@ export function AddAppointments(): JSX.Element {
                 select
                 label="Doctor Type"
                 defaultValue={DoctorType.FAMILY_MEDICINE}
-
                 fullWidth
                 {...register("doctorType", { required: "Doctor type is required" })}
                 error={!!errors.doctorType}

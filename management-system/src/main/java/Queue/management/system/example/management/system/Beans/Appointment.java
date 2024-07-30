@@ -19,8 +19,8 @@ public class Appointment {
     @Column(name="appointment_id")
     private int id;
 
-    @Column(name = "appointment_date")
-    private Timestamp appointmentDate;
+    @Column(name = "appointment_date_time")
+    private Timestamp appointmentDateTime;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "status")

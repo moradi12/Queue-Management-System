@@ -73,7 +73,7 @@ public class PatientService {
         if (patient.getAppointments().contains(appointment)) {
             throw new PatientSystemException(PatientErrMsg.APPOINTMENT_ALREADY_EXISTS);
         }
-        if (appointment.getAppointmentDate().before(Date.valueOf(LocalDate.now()))) {
+        if (appointment.getAppointmentDateTime().before(Date.valueOf(LocalDate.now()))) {
             throw new PatientSystemException(PatientErrMsg.DATE_ERROR);
         }
 
@@ -129,8 +129,8 @@ public class PatientService {
     public List<Appointment> getAppointmentsByTimestampRange(int patientId, Timestamp startTimestamp, Timestamp endTimestamp) throws PatientSystemException {
         Patient patient = patientRepo.findById(patientId).orElseThrow(() -> new PatientSystemException(PatientErrMsg.PATIENT_NOT_FOUND));
         return patient.getAppointments().stream()
-                .filter(appointment -> !appointment.getAppointmentDate().before(startTimestamp) &&
-                        !appointment.getAppointmentDate().after(endTimestamp))
+                .filter(appointment -> !appointment.getAppointmentDateTime().before(startTimestamp) &&
+                        !appointment.getAppointmentDateTime().after(endTimestamp))
                 .collect(Collectors.toList());
     }
 
@@ -147,7 +147,7 @@ public class PatientService {
         Appointment existingAppointment = appointmentRepo.findById(updatedAppointment.getId())
                 .orElseThrow(() -> new PatientSystemException(PatientErrMsg.APPOINTMENT_NOT_FOUND));
 
-        existingAppointment.setAppointmentDate(updatedAppointment.getAppointmentDate());
+        existingAppointment.setAppointmentDateTime(updatedAppointment.getAppointmentDateTime());
         existingAppointment.setDoctorType(updatedAppointment.getDoctorType());
         existingAppointment.setAppointmentStatus(updatedAppointment.getAppointmentStatus());
 
@@ -163,8 +163,8 @@ public class PatientService {
     @Transactional
     public void deleteAppointmentsByTimestampRange(Timestamp startTimestamp, Timestamp endTimestamp) {
         List<Appointment> appointmentsToDelete = appointmentRepo.findAll().stream()
-                .filter(appointment -> !appointment.getAppointmentDate().before(startTimestamp) &&
-                        !appointment.getAppointmentDate().after(endTimestamp))
+                .filter(appointment -> !appointment.getAppointmentDateTime().before(startTimestamp) &&
+                        !appointment.getAppointmentDateTime().after(endTimestamp))
                 .collect(Collectors.toList());
 
         appointmentsToDelete.forEach(appointment -> {

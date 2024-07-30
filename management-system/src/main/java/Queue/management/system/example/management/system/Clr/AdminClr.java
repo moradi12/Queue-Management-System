@@ -41,26 +41,26 @@ public class AdminClr implements CommandLineRunner {
 
             // יצירת פגישה חדשה
             Appointment appointment = Appointment.builder()
-                    .appointmentDate(Timestamp.valueOf(LocalDateTime.of(2025, 12, 12, 11, 11)))
+                    .appointmentDateTime(Timestamp.valueOf(LocalDateTime.of(2025, 12, 12, 11, 11)))
                     .doctorType(DoctorType.CARDIOLOGIST)
                     .appointmentStatus(AppointmentStatus.CONFIRMED)
                     .build();
             adminService.createAppointment(appointment);
 
             Appointment appointment2 = Appointment.builder()
-                    .appointmentDate(Timestamp.valueOf(LocalDateTime.of(2023, 11, 11, 11, 11)))
+                    .appointmentDateTime(Timestamp.valueOf(LocalDateTime.of(2023, 11, 11, 11, 11)))
                     .doctorType(DoctorType.FAMILY_MEDICINE)
                     .appointmentStatus(AppointmentStatus.CONFIRMED)
                     .build();
 
             Appointment appointment3 = Appointment.builder()
-                    .appointmentDate(Timestamp.valueOf(LocalDateTime.of(2023, 10, 10, 10, 10)))
+                    .appointmentDateTime(Timestamp.valueOf(LocalDateTime.of(2023, 10, 10, 10, 10)))
                     .doctorType(DoctorType.DERMATOLOGIST)
                     .appointmentStatus(AppointmentStatus.CONFIRMED)
                     .build();
 
             Appointment appointment4 = Appointment.builder()
-                    .appointmentDate(Timestamp.valueOf(LocalDateTime.of(2023, 9, 9, 9, 9)))
+                    .appointmentDateTime(Timestamp.valueOf(LocalDateTime.of(2023, 9, 9, 9, 9)))
                     .doctorType(DoctorType.NEUROLOGIST)
                     .appointmentStatus(AppointmentStatus.CONFIRMED)
                     .build();

@@ -34,7 +34,7 @@ export function AllAppointments(): JSX.Element {
             (item: any) =>
               new Appointment(
                 item.id,
-                item.appointmentDate,
+                item.appointmentDateTime, // Assuming this is the correct field
                 item.appointmentStatus,
                 item.doctorType
               )
@@ -46,12 +46,12 @@ export function AllAppointments(): JSX.Element {
           navigate("/login");
         });
     }
-  }, []);
+  }, [navigate]);
 
   return (
     <div className="AllAppointments">
       {appointments.map((item) => (
-        <GetSingleAppointment key={item.id} appointemnt={item} />
+        <GetSingleAppointment key={item.id} appointment={item} />
       ))}
     </div>
   );
