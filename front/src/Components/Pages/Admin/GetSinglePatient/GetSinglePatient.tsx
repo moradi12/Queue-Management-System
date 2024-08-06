@@ -9,8 +9,9 @@ export function GetSinglePatient(props:pattientProps): JSX.Element {
     return (
         <div className="GetSinglePatient Box">
             <Typography variant="h5">{props.patient.firstName}{props.patient.lastName}</Typography>
+            <p><b>ID:</b> {props.patient.id}</p>
             <p><b>Email:</b> {props.patient.email}</p>
-            <p><b>phone:</b> {props.patient.phone}</p>
+            <p><b>Phone:</b> {props.patient.phone}</p>
 
 			
         </div>

@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
-@Component
+//@Component
 @Order(1)
 @RequiredArgsConstructor
 public class AdminClr implements CommandLineRunner {

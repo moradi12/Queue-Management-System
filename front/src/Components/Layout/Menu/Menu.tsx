@@ -10,8 +10,8 @@ export function Menu(): JSX.Element {
       <NavLink to="/add/patients">Add Patients</NavLink> |
       <NavLink to="/all/patients">All Patients</NavLink> |
       <NavLink to="/all/appointments/by/doctor">Appointments by Doctor</NavLink> |
-      <NavLink to="/get/single/patient/:id">Get Single Patient</NavLink> |
-      <NavLink to="/update/appointments/:id">Update Appointments</NavLink> |
+      {/* <NavLink to="/get/single/patient/:id">Get Single Patient</NavLink> | */}
+      {/* <NavLink to="/update/appointments/:id">Update Appointments</NavLink> | */}
     </div>
   );
 }

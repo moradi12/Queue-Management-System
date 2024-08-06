@@ -3,25 +3,25 @@ import { DoctorType } from './DoctorType';
 
 export class Appointment {
   public id: number;
-  public appointmentDateTime: Date; // Use Date to represent both date and time
+  public appointmentDateTime: Date; 
   public appointmentStatus: AppointmentStatus;
   public doctorType: DoctorType;
 
   constructor(
     id: number,
-    appointmentDateTime: Date, // Changed to appointmentDateTime
+    appointmentDateTime: Date,
     appointmentStatus: AppointmentStatus,
     doctorType: DoctorType
   ) {
     this.id = id;
-    this.appointmentDateTime = appointmentDateTime; // Updated variable name
+    this.appointmentDateTime = appointmentDateTime; 
     this.appointmentStatus = appointmentStatus;
     this.doctorType = doctorType;
   }
 
   // Method to format the appointment date and time
   public formatAppointmentDateTime(): string {
-    return this.appointmentDateTime.toISOString().replace('T', ' ').substring(0, 16); // Format as YYYY-MM-DD HH:mm
+    return this.appointmentDateTime.toISOString().replace('T', ' ').substring(0, 16);
   }
 
   // Static method to parse a date string and create an Appointment instance

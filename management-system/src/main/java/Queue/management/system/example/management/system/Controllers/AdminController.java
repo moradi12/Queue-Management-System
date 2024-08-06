@@ -163,7 +163,7 @@ public class AdminController {
         }
     }
 
-    @PostMapping("/patient/{patientId}/appointment/{appointmentId}")
+    @PostMapping("/patient/appointment/{patientId}/{appointmentId}")
     public ResponseEntity<String> addAppointmentToPatient(@RequestHeader("Authorization") String jwt, @PathVariable int patientId, @PathVariable int appointmentId) {
         try {
             HttpHeaders headers = jwtUtil.CheckTheJWT(jwt);

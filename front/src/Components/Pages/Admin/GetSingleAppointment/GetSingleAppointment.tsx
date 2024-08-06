@@ -1,12 +1,11 @@
-import { Appointment } from "../../../../Models/Appointment";
-import logo from "../../../../../Asset/doctor.jpg";
+import { Button } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import { Button, Typography } from "@mui/material";
-import "./GetSingleAppointment.css";
-import axiosJWT from "../../../../Utils/axiosJWT";
+import { Appointment } from "../../../../Models/Appointment";
 import { deleteAppointmentAction } from "../../../../Redux/AdminReducer";
 import { Store } from "../../../../Redux/Store";
+import axiosJWT from "../../../../Utils/axiosJWT";
 import { notify } from "../../../../Utils/notif";
+import "./GetSingleAppointment.css";
 
 interface AppointmentProps {
   appointment: Appointment; // Fixed prop name
@@ -22,7 +21,10 @@ export function GetSingleAppointment(props: AppointmentProps): JSX.Element {
           <h1>
             {props.appointment.id}. {props.appointment.doctorType}
           </h1>
-          <p>When? {new Date(props.appointment.appointmentDateTime).toLocaleString()}</p>
+          <p>
+            When?{" "}
+            {new Date(props.appointment.appointmentDateTime).toLocaleString()}
+          </p>
           <p>Status? {props.appointment.appointmentStatus}</p>
         </div>
         <div
@@ -53,6 +55,16 @@ export function GetSingleAppointment(props: AppointmentProps): JSX.Element {
         >
           <Button variant="contained" color="error">
             Delete Appointment
+          </Button>
+        </div>
+        <div
+          className="addToPatient"
+          onClick={() => {
+            navigate(`/add/appointment/to/patients/${props.appointment.id}`);
+          }}
+        >
+          <Button variant="contained" color="success">
+            Add Appointment to Patient
           </Button>
         </div>
       </div>
